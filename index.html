@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Computing Aptitude Examination System</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: #1e293b;
+      border-radius: 4px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #475569;
+      border-radius: 4px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: #64748b;
+    }
+  </style>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col justify-between selection:bg-indigo-500 selection:text-white">
+
+  <!-- ================= HEADER ================= -->
+  <header class="bg-slate-800/80 backdrop-blur-md border-b border-slate-700/60 sticky top-0 z-50">
+    <div class="max-w-6xl mx-auto px-4 py-3.5 flex justify-between items-center">
+      <div class="flex items-center space-x-3 cursor-pointer" onclick="goHome()">
+        <div class="bg-gradient-to-tr from-indigo-500 to-purple-500 p-2.5 rounded-xl shadow-lg shadow-indigo-500/20">
+          <i data-lucide="graduation-cap" class="w-6 h-6 text-white"></i>
+        </div>
+        <div>
+          <h1 class="font-bold text-lg leading-tight text-white tracking-wide">CAES Portal</h1>
+          <p class="text-xs text-slate-400 font-medium">Computing Aptitude Examination System</p>
+        </div>
+      </div>
+      <div class="flex items-center space-x-3">
+        <span class="text-xs px-3 py-1.5 rounded-full bg-slate-700/60 text-slate-300 border border-slate-600/50 flex items-center gap-1.5 font-medium">
+          <i data-lucide="shield-check" class="w-3.5 h-3.5 text-emerald-400"></i> Active Exam Portal
+        </span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= MAIN CONTENT CONTAINER ================= -->
+  <main class="max-w-6xl mx-auto px-4 py-8 flex-grow w-full flex flex-col justify-center">
+
+    <!-- 1. HOME SCREEN -->
+    <div id="screen-home" class="space-y-8 animate-fade-in">
+      <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-indigo-900/60 via-slate-800 to-slate-900 border border-slate-700/80 p-8 md:p-10 shadow-2xl">
+        <div class="absolute -right-10 -bottom-10 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute right-20 top-0 w-48 h-48 bg-purple-500/10 rounded-full blur-2xl pointer-events-none"></div>
+        
+        <div class="max-w-2xl space-y-4 relative z-10">
+          <span class="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider px-3 py-1 rounded-full bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
+            <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> Computer Based Examination
+          </span>
+          <h2 class="text-3xl md:text-4xl font-extrabold text-white tracking-tight leading-tight">
+            Computing Aptitude Examination System
+          </h2>
+          <p class="text-slate-300 text-sm md:text-base leading-relaxed">
+            Welcome to the online exam portal. Test your knowledge across Aptitude, Logical Reasoning, Computing in C, and Core Computer Science.
+          </p>
+          <div class="pt-2 flex flex-wrap gap-4">
+            <button onclick="showStudentForm()" class="px-6 py-3 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-semibold rounded-xl shadow-lg shadow-indigo-500/25 transition-all flex items-center gap-2 transform active:scale-95">
+              <i data-lucide="play-circle" class="w-5 h-5"></i> Start Exam
+            </button>
+            <button onclick="showInstructionsModal()" class="px-6 py-3 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-semibold rounded-xl transition-all flex items-center gap-2 active:scale-95">
+              <i data-lucide="file-text" class="w-5 h-5"></i> Instructions
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stats Overview -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="bg-slate-800/60 border border-slate-700/50 rounded-2xl p-5 hover:border-slate-600 transition-all">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-medium text-slate-400 uppercase tracking-wider">Question Bank</span>
+            <div class="p-2 bg-blue-500/10 text-blue-400 rounded-lg"><i data-lucide="database" class="w-5 h-5"></i></div>
+          </div>
+          <p class="text-2xl font-bold text-white mt-2">100 Questions</p>
+          <p class="text-xs text-slate-400 mt-1">Total database pool</p>
+        </div>
+
+        <div class="bg-slate-800/60 border border-slate-700/50 rounded-2xl p-5 hover:border-slate-600 transition-all">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-medium text-slate-400 uppercase tracking-wider">Exam Questions</span>
+            <div class="p-2 bg-indigo-500/10 text-indigo-400 rounded-lg"><i data-lucide="check-square" class="w-5 h-5"></i></div>
+          </div>
+          <p class="text-2xl font-bold text-white mt-2">20 Questions</p>
+          <p class="text-xs text-slate-400 mt-1">Randomly selected per test</p>
+        </div>
+
+        <div class="bg-slate-800/60 border border-slate-700/50 rounded-2xl p-5 hover:border-slate-600 transition-all">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-medium text-slate-400 uppercase tracking-wider">Categories</span>
+            <div class="p-2 bg-purple-500/10 text-purple-400 rounded-lg"><i data-lucide="layers" class="w-5 h-5"></i></div>
+          </div>
+          <p class="text-2xl font-bold text-white mt-2">4 Modules</p>
+          <p class="text-xs text-slate-400 mt-1">Aptitude, Reasoning, CS, C</p>
+        </div>
+
+        <div class="bg-slate-800/60 border border-slate-700/50 rounded-2xl p-5 hover:border-slate-600 transition-all">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-medium text-slate-400 uppercase tracking-wider">Marking Scheme</span>
+            <div class="p-2 bg-emerald-500/10 text-emerald-400 rounded-lg"><i data-lucide="award" class="w-5 h-5"></i></div>
+          </div>
+          <p class="text-2xl font-bold text-white mt-2">1 Mark Each</p>
+          <p class="text-xs text-slate-400 mt-1">No negative marking</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. STUDENT REGISTRATION -->
+    <div id="screen-setup" class="hidden max-w-lg mx-auto w-full animate-fade-in">
+      <div class="bg-slate-800 border border-slate-700 rounded-3xl p-6 md:p-8 shadow-2xl space-y-6">
+        <div class="text-center space-y-2">
+          <div class="inline-flex p-3 bg-indigo-500/10 text-indigo-400 rounded-2xl mb-1">
+            <i data-lucide="user-check" class="w-8 h-8"></i>
+          </div>
+          <h3 class="text-2xl font-bold text-white">Student Registration</h3>
+          <p class="text-slate-400 text-sm">Please enter your name to begin the exam.</p>
+        </div>
+
+        <form onsubmit="confirmStartExam(event)" class="space-y-4">
+          <div>
+            <label for="student-name" class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Student Name</label>
+            <div class="relative">
+              <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                <i data-lucide="user" class="w-5 h-5"></i>
+              </span>
+              <input type="text" id="student-name" required placeholder="Enter student name" class="w-full bg-slate-900 border border-slate-700 rounded-xl pl-11 pr-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all">
+            </div>
+          </div>
+
+          <div class="p-4 bg-slate-900/60 border border-slate-700/60 rounded-xl text-xs text-slate-300 space-y-2">
+            <p class="font-semibold text-indigo-400 flex items-center gap-1.5">
+              <i data-lucide="alert-circle" class="w-4 h-4"></i> Session Details:
+            </p>
+            <ul class="list-disc list-inside space-y-1 text-slate-400">
+              <li>20 Unique questions selected randomly.</li>
+              <li>1 Mark awarded per correct answer.</li>
+              <li>Result is calculated automatically at the end.</li>
+            </ul>
+          </div>
+
+          <div class="flex gap-3 pt-2">
+            <button type="button" onclick="goHome()" class="w-1/2 py-3 bg-slate-700 hover:bg-slate-600 text-slate-200 font-semibold rounded-xl transition-all">Cancel</button>
+            <button type="submit" class="w-1/2 py-3 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold rounded-xl shadow-lg shadow-indigo-600/30 transition-all flex items-center justify-center gap-2">
+              Start Exam <i data-lucide="arrow-right" class="w-4 h-4"></i>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- 3. EXAM INTERFACE -->
+    <div id="screen-exam" class="hidden space-y-6 max-w-4xl mx-auto w-full animate-fade-in">
+      <!-- Exam Control Header Bar -->
+      <div class="bg-slate-800/80 border border-slate-700/80 rounded-2xl p-4 md:p-5 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-xl">
+        <div>
+          <span id="exam-student-display" class="text-sm font-semibold text-indigo-400">Student: -</span>
+          <h2 class="text-lg font-bold text-white flex items-center gap-2 mt-0.5">
+            Computing Aptitude Examination
+          </h2>
+        </div>
+        
+        <div class="flex items-center justify-between md:justify-end gap-4">
+          <!-- Timer -->
+          <div class="flex items-center gap-2 px-3.5 py-1.5 bg-slate-900/80 rounded-xl border border-slate-700/60">
+            <i data-lucide="clock" class="w-4 h-4 text-amber-400"></i>
+            <span id="exam-timer" class="font-mono text-sm font-bold text-amber-400">20:00</span>
+          </div>
+
+          <!-- Progress -->
+          <div class="text-right">
+            <span class="text-xs text-slate-400 font-medium">Question Progress</span>
+            <p id="exam-progress-text" class="text-sm font-bold text-white">1 / 20</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Question Card -->
+      <div class="bg-slate-800 border border-slate-700/80 rounded-3xl p-6 md:p-8 shadow-2xl relative">
+        <!-- Progress Bar -->
+        <div class="w-full bg-slate-700/50 h-2 rounded-full mb-6 overflow-hidden">
+          <div id="progress-bar" class="bg-gradient-to-r from-indigo-500 to-purple-500 h-full w-0 transition-all duration-300"></div>
+        </div>
+
+        <div class="flex items-center justify-between gap-2 mb-4">
+          <span id="question-category" class="px-3 py-1 rounded-full text-xs font-semibold bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
+            Category
+          </span>
+          <span id="question-number-badge" class="text-xs font-medium text-slate-400">
+            Question 1 of 20
+          </span>
+        </div>
+
+        <!-- Question Text -->
+        <h3 id="question-text" class="text-lg md:text-xl font-bold text-white mb-6 leading-relaxed">
+          Question text...
+        </h3>
+
+        <!-- Options Grid -->
+        <div id="options-container" class="grid grid-cols-1 gap-3.5 mb-8">
+          <!-- Dynamic Options -->
+        </div>
+
+        <!-- Action Bar -->
+        <div class="flex items-center justify-between pt-4 border-t border-slate-700/60">
+          <button id="btn-prev" onclick="prevQuestion()" class="px-5 py-2.5 bg-slate-700 hover:bg-slate-600 text-slate-200 font-medium rounded-xl transition-all disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-2">
+            <i data-lucide="chevron-left" class="w-4 h-4"></i> Previous
+          </button>
+          
+          <div class="flex items-center gap-2">
+            <button id="btn-next" onclick="nextQuestion()" class="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white font-medium rounded-xl transition-all flex items-center gap-2 shadow-lg shadow-indigo-600/20">
+              Next <i data-lucide="chevron-right" class="w-4 h-4"></i>
+            </button>
+            <button id="btn-submit" onclick="submitExamPrompt()" class="hidden px-6 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-medium rounded-xl transition-all flex items-center gap-2 shadow-lg shadow-emerald-600/20">
+              <i data-lucide="check-circle" class="w-4 h-4"></i> Submit Exam
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. RESULTS & ANALYTICS -->
+    <div id="screen-result" class="hidden space-y-8 max-w-4xl mx-auto w-full animate-fade-in">
+      <!-- Result Summary Card -->
+      <div class="bg-slate-800 border border-slate-700/80 rounded-3xl p-6 md:p-8 shadow-2xl relative overflow-hidden">
+        <div class="text-center space-y-3">
+          <div id="grade-badge-icon" class="inline-flex p-4 rounded-3xl mb-2">
+            <!-- Dynamic Icon -->
+          </div>
+          <h2 class="text-2xl md:text-3xl font-extrabold text-white">Final Result</h2>
+          <p id="result-student-name" class="text-slate-400 font-medium text-base">Student Name: -</p>
+        </div>
+
+        <!-- Score Metrics -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 my-8">
+          <div class="bg-slate-900/60 border border-slate-700/60 p-4 rounded-2xl text-center">
+            <span class="text-xs text-slate-400 font-medium uppercase tracking-wider">Correct Answers</span>
+            <p id="res-score" class="text-2xl font-bold text-white mt-1">0/20</p>
+          </div>
+          <div class="bg-slate-900/60 border border-slate-700/60 p-4 rounded-2xl text-center">
+            <span class="text-xs text-slate-400 font-medium uppercase tracking-wider">Percentage</span>
+            <p id="res-percentage" class="text-2xl font-bold text-indigo-400 mt-1">0%</p>
+          </div>
+          <div class="bg-slate-900/60 border border-slate-700/60 p-4 rounded-2xl text-center">
+            <span class="text-xs text-slate-400 font-medium uppercase tracking-wider">Grade</span>
+            <p id="res-grade" class="text-2xl font-bold text-emerald-400 mt-1">-</p>
+          </div>
+          <div class="bg-slate-900/60 border border-slate-700/60 p-4 rounded-2xl text-center">
+            <span class="text-xs text-slate-400 font-medium uppercase tracking-wider">Performance</span>
+            <p id="res-performance" class="text-sm font-bold text-purple-400 mt-2">-</p>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex flex-wrap items-center justify-center gap-3 pt-2">
+          <button onclick="downloadResultFile()" class="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-semibold rounded-xl shadow-lg shadow-emerald-600/20 transition-all flex items-center gap-2 text-sm">
+            <i data-lucide="download" class="w-4 h-4"></i> Download result.txt
+          </button>
+          <button onclick="showStudentForm()" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold rounded-xl shadow-lg shadow-indigo-600/20 transition-all flex items-center gap-2 text-sm">
+            <i data-lucide="rotate-ccw" class="w-4 h-4"></i> Retake Exam
+          </button>
+          <button onclick="goHome()" class="px-5 py-2.5 bg-slate-700 hover:bg-slate-600 text-slate-200 font-semibold rounded-xl transition-all flex items-center gap-2 text-sm">
+            <i data-lucide="home" class="w-4 h-4"></i> Back to Home
+          </button>
+        </div>
+      </div>
+
+      <!-- Question Breakdown -->
+      <div class="bg-slate-800 border border-slate-700/80 rounded-3xl p-6 md:p-8 shadow-xl space-y-6">
+        <div class="flex items-center justify-between border-b border-slate-700/80 pb-4">
+          <h3 class="text-xl font-bold text-white flex items-center gap-2">
+            <i data-lucide="list-checks" class="w-5 h-5 text-indigo-400"></i> Question Review
+          </h3>
+          <span class="text-xs text-slate-400">20 Questions Reviewed</span>
+        </div>
+
+        <div id="review-list" class="space-y-4 max-h-[500px] overflow-y-auto pr-2 custom-scrollbar">
+          <!-- Dynamic Review Items -->
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ================= INSTRUCTIONS MODAL ================= -->
+  <div id="modal-instructions" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-slate-800 border border-slate-700 rounded-3xl max-w-lg w-full p-6 md:p-8 shadow-2xl space-y-6">
+      <div class="flex items-center justify-between border-b border-slate-700 pb-4">
+        <h3 class="text-xl font-bold text-white flex items-center gap-2">
+          <i data-lucide="file-text" class="w-5 h-5 text-indigo-400"></i> Exam Instructions
+        </h3>
+        <button onclick="hideInstructionsModal()" class="text-slate-400 hover:text-white transition-colors">
+          <i data-lucide="x" class="w-6 h-6"></i>
+        </button>
+      </div>
+
+      <div class="space-y-3 text-slate-300 text-sm leading-relaxed">
+        <div class="flex items-start gap-3 p-3 bg-slate-900/50 rounded-xl border border-slate-700/50">
+          <span class="flex-shrink-0 w-6 h-6 bg-indigo-500/10 text-indigo-400 font-bold rounded-lg flex items-center justify-center text-xs">1</span>
+          <p>Total questions in database: <strong>100</strong>.</p>
+        </div>
+        <div class="flex items-start gap-3 p-3 bg-slate-900/50 rounded-xl border border-slate-700/50">
+          <span class="flex-shrink-0 w-6 h-6 bg-indigo-500/10 text-indigo-400 font-bold rounded-lg flex items-center justify-center text-xs">2</span>
+          <p>Questions displayed in exam: <strong>20</strong> (Selected randomly).</p>
+        </div>
+        <div class="flex items-start gap-3 p-3 bg-slate-900/50 rounded-xl border border-slate-700/50">
+          <span class="flex-shrink-0 w-6 h-6 bg-indigo-500/10 text-indigo-400 font-bold rounded-lg flex items-center justify-center text-xs">3</span>
+          <p>Each question carries <strong>1 mark</strong>. Total marks: <strong>20</strong>.</p>
+        </div>
+        <div class="flex items-start gap-3 p-3 bg-slate-900/50 rounded-xl border border-slate-700/50">
+          <span class="flex-shrink-0 w-6 h-6 bg-indigo-500/10 text-indigo-400 font-bold rounded-lg flex items-center justify-center text-xs">4</span>
+          <p>There is <strong>no negative marking</strong>.</p>
+        </div>
+        <div class="flex items-start gap-3 p-3 bg-slate-900/50 rounded-xl border border-slate-700/50">
+          <span class="flex-shrink-0 w-6 h-6 bg-indigo-500/10 text-indigo-400 font-bold rounded-lg flex items-center justify-center text-xs">5</span>
+          <p>Questions will not repeat in the same attempt.</p>
+        </div>
+      </div>
+
+      <button onclick="hideInstructionsModal()" class="w-full py-3 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold rounded-xl transition-all">
+        Close Instructions
+      </button>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-slate-950 border-t border-slate-800 py-4 text-center text-xs text-slate-500">
+    <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-2">
+      <p>© Computing Aptitude Examination System (CAES)</p>
+      <p>C Program Code Web Frontend Translation</p>
+    </div>
+  </footer>
+
+  <!-- ================= JAVASCRIPT LOGIC ================= -->
+  <script>
+    /* Complete 100 Question Bank matching C Structure */
+    const questionBank = [
+      /* ---------- APTITUDE : 1-25 ---------- */
+      { question: "What is 25 + 35?", optionA: "A. 50", optionB: "B. 60", optionC: "C. 70", optionD: "D. 80", answer: "B", category: "Aptitude" },
+      { question: "What is 15% of 200?", optionA: "A. 20", optionB: "B. 25", optionC: "C. 30", optionD: "D. 35", answer: "C", category: "Aptitude" },
+      { question: "What is 12 x 8?", optionA: "A. 86", optionB: "B. 96", optionC: "C. 106", optionD: "D. 116", answer: "B", category: "Aptitude" },
+      { question: "What is the average of 10, 20 and 30?", optionA: "A. 15", optionB: "B. 20", optionC: "C. 25", optionD: "D. 30", answer: "B", category: "Aptitude" },
+      { question: "If a = 10 and b = 20, what is a + b?", optionA: "A. 20", optionB: "B. 25", optionC: "C. 30", optionD: "D. 40", answer: "C", category: "Aptitude" },
+      { question: "What is 20% of 500?", optionA: "A. 50", optionB: "B. 75", optionC: "C. 100", optionD: "D. 125", answer: "C", category: "Aptitude" },
+      { question: "What is 144 divided by 12?", optionA: "A. 10", optionB: "B. 11", optionC: "C. 12", optionD: "D. 14", answer: "C", category: "Aptitude" },
+      { question: "A pen costs Rs. 10. What is the cost of 5 pens?", optionA: "A. Rs. 40", optionB: "B. Rs. 50", optionC: "C. Rs. 60", optionD: "D. Rs. 70", answer: "B", category: "Aptitude" },
+      { question: "What is 7 squared?", optionA: "A. 14", optionB: "B. 21", optionC: "C. 49", optionD: "D. 56", answer: "C", category: "Aptitude" },
+      { question: "What is 1000 - 375?", optionA: "A. 525", optionB: "B. 625", optionC: "C. 675", optionD: "D. 725", answer: "B", category: "Aptitude" },
+      { question: "What is 18 + 27?", optionA: "A. 35", optionB: "B. 40", optionC: "C. 45", optionD: "D. 50", answer: "C", category: "Aptitude" },
+      { question: "What is 9 x 9?", optionA: "A. 72", optionB: "B. 81", optionC: "C. 90", optionD: "D. 99", answer: "B", category: "Aptitude" },
+      { question: "What is 50% of 80?", optionA: "A. 20", optionB: "B. 30", optionC: "C. 40", optionD: "D. 50", answer: "C", category: "Aptitude" },
+      { question: "What is 3/4 of 100?", optionA: "A. 50", optionB: "B. 60", optionC: "C. 75", optionD: "D. 80", answer: "C", category: "Aptitude" },
+      { question: "If 5 books cost Rs. 250, what is the cost of one book?", optionA: "A. Rs. 40", optionB: "B. Rs. 50", optionC: "C. Rs. 60", optionD: "D. Rs. 70", answer: "B", category: "Aptitude" },
+      { question: "What is 25 squared?", optionA: "A. 525", optionB: "B. 625", optionC: "C. 725", optionD: "D. 825", answer: "B", category: "Aptitude" },
+      { question: "What is the simple interest on Rs. 1000 at 10% for 1 year?", optionA: "A. Rs. 50", optionB: "B. Rs. 100", optionC: "C. Rs. 150", optionD: "D. Rs. 200", answer: "B", category: "Aptitude" },
+      { question: "A number increased from 100 to 120. What is the percentage increase?", optionA: "A. 10%", optionB: "B. 15%", optionC: "C. 20%", optionD: "D. 25%", answer: "C", category: "Aptitude" },
+      { question: "What is the HCF of 12 and 18?", optionA: "A. 3", optionB: "B. 6", optionC: "C. 9", optionD: "D. 12", answer: "B", category: "Aptitude" },
+      { question: "What is the LCM of 4 and 6?", optionA: "A. 8", optionB: "B. 10", optionC: "C. 12", optionD: "D. 24", answer: "C", category: "Aptitude" },
+      { question: "If 2x = 20, what is x?", optionA: "A. 5", optionB: "B. 10", optionC: "C. 15", optionD: "D. 20", answer: "B", category: "Aptitude" },
+      { question: "What is 30% of 300?", optionA: "A. 60", optionB: "B. 90", optionC: "C. 120", optionD: "D. 150", answer: "B", category: "Aptitude" },
+      { question: "A car travels 60 km in 2 hours. What is its speed?", optionA: "A. 20 km/h", optionB: "B. 30 km/h", optionC: "C. 40 km/h", optionD: "D. 60 km/h", answer: "B", category: "Aptitude" },
+      { question: "What is the square root of 81?", optionA: "A. 7", optionB: "B. 8", optionC: "C. 9", optionD: "D. 10", answer: "C", category: "Aptitude" },
+      { question: "What is 2^5?", optionA: "A. 16", optionB: "B. 24", optionC: "C. 32", optionD: "D. 64", answer: "C", category: "Aptitude" },
+
+      /* ---------- REASONING : 26-50 ---------- */
+      { question: "What comes next: 2, 4, 6, 8, ?", optionA: "A. 9", optionB: "B. 10", optionC: "C. 11", optionD: "D. 12", answer: "B", category: "Reasoning" },
+      { question: "What comes next: 5, 10, 15, 20, ?", optionA: "A. 22", optionB: "B. 23", optionC: "C. 25", optionD: "D. 30", answer: "C", category: "Reasoning" },
+      { question: "What comes next: 3, 6, 12, 24, ?", optionA: "A. 36", optionB: "B. 42", optionC: "C. 48", optionD: "D. 50", answer: "C", category: "Reasoning" },
+      { question: "If CAT is coded as DBU, DOG is coded as?", optionA: "A. EPH", optionB: "B. FPH", optionC: "C. EOG", optionD: "D. DPH", answer: "A", category: "Reasoning" },
+      { question: "Which number is different?", optionA: "A. 2", optionB: "B. 4", optionC: "C. 6", optionD: "D. 9", answer: "D", category: "Reasoning" },
+      { question: "If today is Monday, what day will it be after 3 days?", optionA: "A. Tuesday", optionB: "B. Wednesday", optionC: "C. Thursday", optionD: "D. Friday", answer: "C", category: "Reasoning" },
+      { question: "Find the odd one: Apple, Mango, Carrot, Banana", optionA: "A. Apple", optionB: "B. Mango", optionC: "C. Carrot", optionD: "D. Banana", answer: "C", category: "Reasoning" },
+      { question: "Which comes next: A, C, E, G, ?", optionA: "A. H", optionB: "B. I", optionC: "C. J", optionD: "D. K", answer: "B", category: "Reasoning" },
+      { question: "Which number comes next: 1, 4, 9, 16, ?", optionA: "A. 20", optionB: "B. 24", optionC: "C. 25", optionD: "D. 30", answer: "C", category: "Reasoning" },
+      { question: "Which word does not belong?", optionA: "A. Dog", optionB: "B. Cat", optionC: "C. Cow", optionD: "D. Rose", answer: "D", category: "Reasoning" },
+      { question: "Find the missing number: 10, 20, 30, ?, 50", optionA: "A. 35", optionB: "B. 40", optionC: "C. 45", optionD: "D. 60", answer: "B", category: "Reasoning" },
+      { question: "If BOOK is coded as CPP, then PEN is coded as?", optionA: "A. QFO", optionB: "B. QEN", optionC: "C. PFO", optionD: "D. RFO", answer: "A", category: "Reasoning" },
+      { question: "Which number is odd one out?", optionA: "A. 11", optionB: "B. 13", optionC: "C. 17", optionD: "D. 21", answer: "D", category: "Reasoning" },
+      { question: "Complete the series: 100, 90, 80, 70, ?", optionA: "A. 50", optionB: "B. 55", optionC: "C. 60", optionD: "D. 65", answer: "C", category: "Reasoning" },
+      { question: "If EAST is opposite to WEST, then NORTH is opposite to?", optionA: "A. EAST", optionB: "B. SOUTH", optionC: "C. WEST", optionD: "D. NORTH", answer: "B", category: "Reasoning" },
+      { question: "Which shape has three sides?", optionA: "A. Square", optionB: "B. Circle", optionC: "C. Triangle", optionD: "D. Rectangle", answer: "C", category: "Reasoning" },
+      { question: "Find the next letter: B, D, F, H, ?", optionA: "A. I", optionB: "B. J", optionC: "C. K", optionD: "D. L", answer: "B", category: "Reasoning" },
+      { question: "If 1 = A, 2 = B, 3 = C, then 5 = ?", optionA: "A. D", optionB: "B. E", optionC: "C. F", optionD: "D. G", answer: "B", category: "Reasoning" },
+      { question: "Which is the smallest number?", optionA: "A. 0.5", optionB: "B. 0.05", optionC: "C. 0.55", optionD: "D. 0.505", answer: "B", category: "Reasoning" },
+      { question: "Find the odd one: January, March, May, Sunday", optionA: "A. January", optionB: "B. March", optionC: "C. May", optionD: "D. Sunday", answer: "D", category: "Reasoning" },
+      { question: "What comes next: 1, 2, 4, 8, ?", optionA: "A. 10", optionB: "B. 12", optionC: "C. 16", optionD: "D. 18", answer: "C", category: "Reasoning" },
+      { question: "If all roses are flowers, then a rose is a?", optionA: "A. Tree", optionB: "B. Flower", optionC: "C. Fruit", optionD: "D. Leaf", answer: "B", category: "Reasoning" },
+      { question: "Which number completes: 7, 14, 21, 28, ?", optionA: "A. 30", optionB: "B. 32", optionC: "C. 35", optionD: "D. 40", answer: "C", category: "Reasoning" },
+      { question: "Find the odd one: 2, 3, 5, 9", optionA: "A. 2", optionB: "B. 3", optionC: "C. 5", optionD: "D. 9", answer: "D", category: "Reasoning" },
+      { question: "What comes next: 50, 45, 40, 35, ?", optionA: "A. 25", optionB: "B. 30", optionC: "C. 32", optionD: "D. 33", answer: "B", category: "Reasoning" },
+
+      /* ---------- COMPUTING : 51-75 ---------- */
+      { question: "Which language is mainly used for system programming?", optionA: "A. HTML", optionB: "B. CSS", optionC: "C. C", optionD: "D. SQL", answer: "C", category: "Computing" },
+      { question: "Which data structure follows LIFO?", optionA: "A. Queue", optionB: "B. Stack", optionC: "C. Tree", optionD: "D. Graph", answer: "B", category: "Computing" },
+      { question: "Which data structure follows FIFO?", optionA: "A. Stack", optionB: "B. Queue", optionC: "C. Tree", optionD: "D. Array", answer: "B", category: "Computing" },
+      { question: "Which symbol is used for AND operator in C?", optionA: "A. ||", optionB: "B. &&", optionC: "C. !", optionD: "D. &", answer: "B", category: "Computing" },
+      { question: "Which function takes input in C?", optionA: "A. printf()", optionB: "B. scanf()", optionC: "C. input()", optionD: "D. get()", answer: "B", category: "Computing" },
+      { question: "Which function displays output in C?", optionA: "A. scanf()", optionB: "B. input()", optionC: "C. printf()", optionD: "D. display()", answer: "C", category: "Computing" },
+      { question: "Which keyword returns a value from a function?", optionA: "A. break", optionB: "B. continue", optionC: "C. return", optionD: "D. exit", answer: "C", category: "Computing" },
+      { question: "Which symbol terminates a C statement?", optionA: "A. :", optionB: "B. .", optionC: "C. ;", optionD: "D. ,", answer: "C", category: "Computing" },
+      { question: "Which is a loop in C?", optionA: "A. for", optionB: "B. repeat", optionC: "C. iterate", optionD: "D. loop", answer: "A", category: "Computing" },
+      { question: "Which data type stores a single character?", optionA: "A. int", optionB: "B. float", optionC: "C. char", optionD: "D. double", answer: "C", category: "Computing" },
+      { question: "Which data type stores whole numbers?", optionA: "A. int", optionB: "B. char", optionC: "C. float", optionD: "D. string", answer: "A", category: "Computing" },
+      { question: "Which operator is used for assignment in C?", optionA: "A. ==", optionB: "B. =", optionC: "C. !=", optionD: "D. >=", answer: "B", category: "Computing" },
+      { question: "Which operator checks equality?", optionA: "A. =", optionB: "B. ==", optionC: "C. !", optionD: "D. ++", answer: "B", category: "Computing" },
+      { question: "Which header file is required for printf()?", optionA: "A. math.h", optionB: "B. stdio.h", optionC: "C. string.h", optionD: "D. stdlib.h", answer: "B", category: "Computing" },
+      { question: "Which function is used to find string length?", optionA: "A. strlen()", optionB: "B. length()", optionC: "C. strlength()", optionD: "D. size()", answer: "A", category: "Computing" },
+      { question: "Which header file contains strlen()?", optionA: "A. stdio.h", optionB: "B. math.h", optionC: "C. string.h", optionD: "D. time.h", answer: "C", category: "Computing" },
+      { question: "Which symbol is used for single-line comments in C?", optionA: "A. //", optionB: "B. ##", optionC: "C. **", optionD: "D. <!--", answer: "A", category: "Computing" },
+      { question: "Which keyword is used to define a constant?", optionA: "A. constant", optionB: "B. const", optionC: "C. fixed", optionD: "D. final", answer: "B", category: "Computing" },
+      { question: "Which is NOT a valid C data type?", optionA: "A. int", optionB: "B. float", optionC: "C. char", optionD: "D. number", answer: "D", category: "Computing" },
+      { question: "What is the index of the first element of an array?", optionA: "A. 0", optionB: "B. 1", optionC: "C. -1", optionD: "D. 2", answer: "A", category: "Computing" },
+      { question: "Which statement is used for decision making?", optionA: "A. if", optionB: "B. print", optionC: "C. scan", optionD: "D. include", answer: "A", category: "Computing" },
+      { question: "Which keyword stops a loop or switch?", optionA: "A. stop", optionB: "B. exit", optionC: "C. break", optionD: "D. end", answer: "C", category: "Computing" },
+      { question: "Which keyword skips the current loop iteration?", optionA: "A. skip", optionB: "B. continue", optionC: "C. break", optionD: "D. pass", answer: "B", category: "Computing" },
+      { question: "Which operator gives remainder?", optionA: "A. /", optionB: "B. *", optionC: "C. %", optionD: "D. //", answer: "C", category: "Computing" },
+      { question: "Which function is the starting point of a C program?", optionA: "A. start()", optionB: "B. begin()", optionC: "C. main()", optionD: "D. run()", answer: "C", category: "Computing" },
+
+      /* ---------- COMPUTER SCIENCE : 76-100 ---------- */
+      { question: "What does CPU stand for?", optionA: "A. Central Processing Unit", optionB: "B. Computer Personal Unit", optionC: "C. Central Program Unit", optionD: "D. Control Processing Utility", answer: "A", category: "Computer Science" },
+      { question: "What does RAM stand for?", optionA: "A. Read Access Memory", optionB: "B. Random Access Memory", optionC: "C. Run Access Memory", optionD: "D. Random Application Memory", answer: "B", category: "Computer Science" },
+      { question: "Which memory is volatile?", optionA: "A. ROM", optionB: "B. Hard Disk", optionC: "C. RAM", optionD: "D. SSD", answer: "C", category: "Computer Science" },
+      { question: "Which device is used to enter text?", optionA: "A. Monitor", optionB: "B. Keyboard", optionC: "C. Speaker", optionD: "D. Printer", answer: "B", category: "Computer Science" },
+      { question: "Which device displays output?", optionA: "A. Keyboard", optionB: "B. Mouse", optionC: "C. Monitor", optionD: "D. Scanner", answer: "C", category: "Computer Science" },
+      { question: "What does URL stand for?", optionA: "A. Uniform Resource Locator", optionB: "B. Universal Resource Link", optionC: "C. Uniform Read Locator", optionD: "D. User Resource Location", answer: "A", category: "Computer Science" },
+      { question: "What does HTTP stand for?", optionA: "A. HyperText Transfer Protocol", optionB: "B. HighText Transfer Program", optionC: "C. Hyper Transfer Text Program", optionD: "D. High Transfer Protocol", answer: "A", category: "Computer Science" },
+      { question: "Which protocol is commonly used to send email?", optionA: "A. FTP", optionB: "B. SMTP", optionC: "C. HTTP", optionD: "D. DHCP", answer: "B", category: "Computer Science" },
+      { question: "Which protocol is used to automatically assign IP addresses?", optionA: "A. FTP", optionB: "B. SMTP", optionC: "C. DHCP", optionD: "D. HTTP", answer: "C", category: "Computer Science" },
+      { question: "Which layer of OSI model is responsible for routing?", optionA: "A. Physical", optionB: "B. Data Link", optionC: "C. Network", optionD: "D. Session", answer: "C", category: "Computer Science" },
+      { question: "How many layers are there in OSI model?", optionA: "A. 5", optionB: "B. 6", optionC: "C. 7", optionD: "D. 8", answer: "C", category: "Computer Science" },
+      { question: "Which protocol translates domain names into IP addresses?", optionA: "A. DNS", optionB: "B. FTP", optionC: "C. DHCP", optionD: "D. SMTP", answer: "A", category: "Computer Science" },
+      { question: "What does IP stand for?", optionA: "A. Internet Protocol", optionB: "B. Internal Program", optionC: "C. Internet Program", optionD: "D. Information Protocol", answer: "A", category: "Computer Science" },
+      { question: "Which is an example of an operating system?", optionA: "A. Linux", optionB: "B. HTML", optionC: "C. SQL", optionD: "D. HTTP", answer: "A", category: "Computer Science" },
+      { question: "Which one is an open-source operating system?", optionA: "A. Linux", optionB: "B. Windows", optionC: "C. MS Word", optionD: "D. Photoshop", answer: "A", category: "Computer Science" },
+      { question: "What is the full form of DBMS?", optionA: "A. Database Management System", optionB: "B. Data Backup Management System", optionC: "C. Database Machine System", optionD: "D. Data Management Software", answer: "A", category: "Computer Science" },
+      { question: "Which language is commonly used to query databases?", optionA: "A. SQL", optionB: "B. HTML", optionC: "C. CSS", optionD: "D. XML", answer: "A", category: "Computer Science" },
+      { question: "Which key uniquely identifies a record in a table?", optionA: "A. Foreign Key", optionB: "B. Primary Key", optionC: "C. Candidate Key", optionD: "D. Alternate Key", answer: "B", category: "Computer Science" },
+      { question: "Which command is used to retrieve data from a database?", optionA: "A. INSERT", optionB: "B. UPDATE", optionC: "C. SELECT", optionD: "D. DELETE", answer: "C", category: "Computer Science" },
+      { question: "Which command removes records from a table?", optionA: "A. DELETE", optionB: "B. SELECT", optionC: "C. INSERT", optionD: "D. CREATE", answer: "A", category: "Computer Science" },
+      { question: "Which algorithm is used to find an element in a sorted array efficiently?", optionA: "A. Linear Search", optionB: "B. Binary Search", optionC: "C. Bubble Sort", optionD: "D. Selection Sort", answer: "B", category: "Computer Science" },
+      { question: "Which sorting algorithm repeatedly swaps adjacent elements?", optionA: "A. Bubble Sort", optionB: "B. Binary Search", optionC: "C. Merge Sort", optionD: "D. Quick Search", answer: "A", category: "Computer Science" },
+      { question: "Which data structure is hierarchical?", optionA: "A. Stack", optionB: "B. Queue", optionC: "C. Tree", optionD: "D. Array", answer: "C", category: "Computer Science" },
+      { question: "Which data structure consists of nodes connected by edges?", optionA: "A. Array", optionB: "B. Graph", optionC: "C. Stack", optionD: "D. Queue", answer: "B", category: "Computer Science" },
+      { question: "What does HTML stand for?", optionA: "A. HyperText Markup Language", optionB: "B. HighText Machine Language", optionC: "C. Hyper Transfer Markup Language", optionD: "D. Home Tool Markup Language", answer: "A", category: "Computer Science" }
+    ];
+
+    /* ================= APP STATE ================= */
+    const EXAM_QUESTIONS_COUNT = 20;
+    let currentStudent = "";
+    let selectedQuestions = [];
+    let userAnswers = {};
+    let currentIndex = 0;
+    let timerInterval = null;
+    let timeLeft = 1200; // 20 mins
+
+    document.addEventListener("DOMContentLoaded", () => {
+      lucide.createIcons();
+    });
+
+    function showScreen(screenId) {
+      document.getElementById("screen-home").classList.add("hidden");
+      document.getElementById("screen-setup").classList.add("hidden");
+      document.getElementById("screen-exam").classList.add("hidden");
+      document.getElementById("screen-result").classList.add("hidden");
+
+      document.getElementById(screenId).classList.remove("hidden");
+      lucide.createIcons();
+    }
+
+    function goHome() {
+      if (timerInterval) clearInterval(timerInterval);
+      showScreen("screen-home");
+    }
+
+    function showStudentForm() {
+      showScreen("screen-setup");
+      document.getElementById("student-name").value = "";
+      document.getElementById("student-name").focus();
+    }
+
+    function showInstructionsModal() {
+      document.getElementById("modal-instructions").classList.remove("hidden");
+      lucide.createIcons();
+    }
+
+    function hideInstructionsModal() {
+      document.getElementById("modal-instructions").classList.add("hidden");
+    }
+
+    /* Randomize 20 Questions */
+    function confirmStartExam(e) {
+      e.preventDefault();
+      const nameInput = document.getElementById("student-name").value.trim();
+      if (!nameInput) return;
+
+      currentStudent = nameInput;
+      userAnswers = {};
+      currentIndex = 0;
+      timeLeft = 1200;
+
+      const usedIndexes = new Set();
+      selectedQuestions = [];
+
+      while (selectedQuestions.length < EXAM_QUESTIONS_COUNT) {
+        const rand = Math.floor(Math.random() * questionBank.length);
+        if (!usedIndexes.has(rand)) {
+          usedIndexes.add(rand);
+          selectedQuestions.push(questionBank[rand]);
+        }
+      }
+
+      document.getElementById("exam-student-display").innerText = `Student: ${currentStudent}`;
+      showScreen("screen-exam");
+      startTimer();
+      renderQuestion();
+    }
+
+    function startTimer() {
+      if (timerInterval) clearInterval(timerInterval);
+      updateTimerDisplay();
+
+      timerInterval = setInterval(() => {
+        timeLeft--;
+        updateTimerDisplay();
+
+        if (timeLeft <= 0) {
+          clearInterval(timerInterval);
+          finishExam();
+        }
+      }, 1000);
+    }
+
+    function updateTimerDisplay() {
+      const minutes = Math.floor(timeLeft / 60);
+      const seconds = timeLeft % 60;
+      document.getElementById("exam-timer").innerText = 
+        `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    }
+
+    function renderQuestion() {
+      const q = selectedQuestions[currentIndex];
+
+      document.getElementById("question-category").innerText = q.category;
+      document.getElementById("question-number-badge").innerText = `Question ${currentIndex + 1} of ${EXAM_QUESTIONS_COUNT}`;
+      document.getElementById("exam-progress-text").innerText = `${currentIndex + 1} / ${EXAM_QUESTIONS_COUNT}`;
+      document.getElementById("question-text").innerText = q.question;
+
+      const progressPercent = ((currentIndex + 1) / EXAM_QUESTIONS_COUNT) * 100;
+      document.getElementById("progress-bar").style.width = `${progressPercent}%`;
+
+      const options = [
+        { key: "A", text: q.optionA },
+        { key: "B", text: q.optionB },
+        { key: "C", text: q.optionC },
+        { key: "D", text: q.optionD }
+      ];
+
+      const container = document.getElementById("options-container");
+      container.innerHTML = "";
+
+      options.forEach(opt => {
+        const isSelected = userAnswers[currentIndex] === opt.key;
+        
+        const btn = document.createElement("button");
+        btn.onclick = () => selectOption(opt.key);
+        btn.className = `w-full text-left p-4 rounded-2xl border transition-all flex items-center justify-between group ${
+          isSelected 
+            ? 'bg-indigo-600/20 border-indigo-500 text-white font-semibold shadow-md' 
+            : 'bg-slate-900/60 border-slate-700/70 text-slate-300 hover:border-slate-500 hover:bg-slate-700/40'
+        }`;
+
+        btn.innerHTML = `
+          <span class="flex items-center gap-3">
+            <span class="w-8 h-8 rounded-xl flex items-center justify-center font-bold text-xs ${
+              isSelected ? 'bg-indigo-500 text-white' : 'bg-slate-800 text-slate-400 group-hover:bg-slate-700'
+            }">
+              ${opt.key}
+            </span>
+            <span class="text-sm md:text-base">${opt.text}</span>
+          </span>
+          <div class="w-5 h-5 rounded-full border-2 flex items-center justify-center ${
+            isSelected ? 'border-indigo-400 bg-indigo-500' : 'border-slate-600'
+          }">
+            ${isSelected ? '<i data-lucide="check" class="w-3 h-3 text-white"></i>' : ''}
+          </div>
+        `;
+        container.appendChild(btn);
+      });
+
+      document.getElementById("btn-prev").disabled = (currentIndex === 0);
+
+      if (currentIndex === EXAM_QUESTIONS_COUNT - 1) {
+        document.getElementById("btn-next").classList.add("hidden");
+        document.getElementById("btn-submit").classList.remove("hidden");
+      } else {
+        document.getElementById("btn-next").classList.remove("hidden");
+        document.getElementById("btn-submit").classList.add("hidden");
+      }
+
+      lucide.createIcons();
+    }
+
+    function selectOption(key) {
+      userAnswers[currentIndex] = key;
+      renderQuestion();
+    }
+
+    function prevQuestion() {
+      if (currentIndex > 0) {
+        currentIndex--;
+        renderQuestion();
+      }
+    }
+
+    function nextQuestion() {
+      if (currentIndex < EXAM_QUESTIONS_COUNT - 1) {
+        currentIndex++;
+        renderQuestion();
+      }
+    }
+
+    function submitExamPrompt() {
+      finishExam();
+    }
+
+    function finishExam() {
+      if (timerInterval) clearInterval(timerInterval);
+
+      let score = 0;
+      selectedQuestions.forEach((q, idx) => {
+        if (userAnswers[idx] === q.answer) {
+          score++;
+        }
+      });
+
+      const percentage = (score * 100.0) / EXAM_QUESTIONS_COUNT;
+
+      let grade = "F";
+      let performance = "Need Improvement";
+      let badgeStyle = "bg-rose-500/10 text-rose-400 border border-rose-500/20";
+      let iconName = "alert-triangle";
+
+      if (percentage >= 80) {
+        grade = "A";
+        performance = "Excellent";
+        badgeStyle = "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20";
+        iconName = "award";
+      } else if (percentage >= 60) {
+        grade = "B";
+        performance = "Very Good";
+        badgeStyle = "bg-blue-500/10 text-blue-400 border border-blue-500/20";
+        iconName = "thumbs-up";
+      } else if (percentage >= 40) {
+        grade = "C";
+        performance = "Good";
+        badgeStyle = "bg-amber-500/10 text-amber-400 border border-amber-500/20";
+        iconName = "check-circle";
+      }
+
+      document.getElementById("result-student-name").innerText = `Student Name: ${currentStudent}`;
+      document.getElementById("res-score").innerText = `${score} / ${EXAM_QUESTIONS_COUNT}`;
+      document.getElementById("res-percentage").innerText = `${percentage.toFixed(2)}%`;
+      document.getElementById("res-grade").innerText = grade;
+      document.getElementById("res-performance").innerText = performance;
+
+      const badgeIconContainer = document.getElementById("grade-badge-icon");
+      badgeIconContainer.className = `inline-flex p-4 rounded-3xl mb-2 ${badgeStyle}`;
+      badgeIconContainer.innerHTML = `<i data-lucide="${iconName}" class="w-10 h-10"></i>`;
+
+      const reviewList = document.getElementById("review-list");
+      reviewList.innerHTML = "";
+
+      selectedQuestions.forEach((q, idx) => {
+        const userAns = userAnswers[idx] || "None";
+        const isCorrect = userAns === q.answer;
+
+        const item = document.createElement("div");
+        item.className = `p-4 rounded-2xl border ${
+          isCorrect ? 'bg-emerald-950/20 border-emerald-800/50' : 'bg-rose-950/20 border-rose-800/50'
+        }`;
+
+        item.innerHTML = `
+          <div class="flex items-start justify-between gap-3 mb-2">
+            <div>
+              <span class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-300 border border-slate-700 mr-2">
+                Q${idx + 1} • ${q.category}
+              </span>
+              <p class="font-medium text-white text-sm mt-1.5">${q.question}</p>
+            </div>
+            <span class="px-2.5 py-1 rounded-full text-xs font-bold flex items-center gap-1 ${
+              isCorrect ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-rose-500/10 text-rose-400 border border-rose-500/20'
+            }">
+              <i data-lucide="${isCorrect ? 'check' : 'x'}" class="w-3.5 h-3.5"></i>
+              ${isCorrect ? 'Correct (+1)' : 'Incorrect'}
+            </span>
+          </div>
+
+          <div class="grid grid-cols-2 gap-2 text-xs pt-2 border-t border-slate-800/60 mt-2">
+            <div>
+              <span class="text-slate-400">Your Answer:</span>
+              <span class="font-bold ml-1 ${isCorrect ? 'text-emerald-400' : 'text-rose-400'}">${userAns}</span>
+            </div>
+            <div>
+              <span class="text-slate-400">Correct Answer:</span>
+              <span class="font-bold text-emerald-400 ml-1">${q.answer}</span>
+            </div>
+          </div>
+        `;
+        reviewList.appendChild(item);
+      });
+
+      showScreen("screen-result");
+      lucide.createIcons();
+    }
+
+    /* Save Result to file matching saveResult() in C */
+    function downloadResultFile() {
+      let score = 0;
+      selectedQuestions.forEach((q, idx) => {
+        if (userAnswers[idx] === q.answer) score++;
+      });
+      const percentage = ((score * 100.0) / EXAM_QUESTIONS_COUNT).toFixed(2);
+
+      const content = `Student: ${currentStudent} | Score: ${score}/${EXAM_QUESTIONS_COUNT} | Percentage: ${percentage}%\n`;
+
+      const blob = new Blob([content], { type: "text/plain" });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = "result.txt";
+      link.click();
+      URL.revokeObjectURL(link.href);
+    }
+  </script>
+</body>
+</html>
